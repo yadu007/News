@@ -6,11 +6,7 @@ from urlparse import urlparse
 from bs4 import BeautifulSoup
 app = Flask(__name__)
 app.debug = True
-soup=""
-Heading=""
-domain=""
-data=""
-Itext=""
+soup,Heading,domain,data,Itext="","","","",""
 @app.route("/")
 def hello():
     return render_template('index.html')
@@ -22,11 +18,7 @@ def my_form_post():
     cursor.execute(sql)
     #db.commit
     data = cursor.fetchall()
-    global data
-    global domain
-    global soup
-    global Heading
-    global Itext
+    global data,domain,soup,Heading,Itext
     Itext = request.form['text']
     parse=urlparse(Itext)
     domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parse)
@@ -36,11 +28,7 @@ def my_form_post():
     return render_template("index.html",result =soup.h1.string,header=Heading,name=domain,disp=data)
 @app.route('/save', methods=['POST'])
 def save():
-    global data
-    global domain
-    global soup
-    global Heading
-    global Itext
+    global data,domain,soup,Heading,Itext
     db = MySQLdb.connect("localhost","root","pwd","SAVEDATA" )
     cursor = db.cursor()
     sql = "INSERT INTO SAVES3(HEAD \
